@@ -1,0 +1,38 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "gradle build",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "war",
+            "type": "shell",
+            "command": "gradle war",
+            "group": "build"
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "gradle run --scan",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "gradle clean"
+        },
+        {
+            "label": "check",
+            "type": "shell",
+            "command": "gradle check"
+        }
+    ]
+}

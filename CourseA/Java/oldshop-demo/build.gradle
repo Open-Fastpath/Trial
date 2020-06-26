@@ -1,0 +1,93 @@
+plugins {
+    // 利用可能なコマンドはgradle tasksで確認
+    id 'java'
+    // warへの変換とTomdatへのデプロイメント
+    id 'war'
+    //id 'eclipse'
+}
+
+/**
+ ----- 主な利用コマンド -----
+ <Help Task>
+ gradle tasks       利用できるタスクの一覧を表示
+ gradle properties  現在の設定を表示
+
+ <Build Task>
+ gradle build       コンパイルとテストを実行
+ gradle classes     コンパイルのみ実行
+ gradle clean       ビルドしたclassやjar、warを一斉消去
+ gradle jar         classを含むjarファイルをlibsDirに生成
+ gradle testClasses テストクラスのコンパイルのみ
+ gradle war         webAppDirを含むWARをlibsDirに生成
+ 
+ <Documentation Task>
+ gradle javadoc     JavaDocを生成する　※未テスト
+ */
+
+//ソースコードとクラスファイルのJDKのバージョン指定
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+//Webアプリケーションフォルダの指定
+webAppDirName = 'webapps'
+println "WEBDIRS:" + webAppDir
+//Tomcatフォルダの指定
+def tomcatHome = System.getenv('CATALINA_HOME')
+println "TOMCAT.HOME" + tomcatHome
+println "LIBDIR" + "${libsDir}"
+
+
+compileJava{
+    //デフォルトはプラットフォームのエンコーディング
+    options.encoding = 'UTF-8'
+    //処理対象のファイルを表示（表示したくない場合falseに修正）
+    options.listFiles = true
+    //処理の詳細を表示（表示したくない場合falseに修正）
+    options.verbose = true
+}
+
+repositories {
+    //JFrog社 が提供するソフトウェア配布サービス Bintray を利用するmaven互換リポジトリ
+    //mavanCentralよりjcenterが主流になりつつある
+    //jcenter()
+
+    //Sonatype社 が提供するソフトウェア配布サービス Central Repository
+    //mavenのデフォルトのリポジトリ
+    //過去資産が豊富であるためどうしても依存必要な場合のみ利用
+    mavenCentral()
+}
+
+dependencies {
+    //Warに内包する場合はimplementationを利用※Gradle6.x以降compileオプションは利用不可
+    compileOnly files('/usr/local/tomcat/lib/servlet-api.jar', '/usr/local/tomcat/lib/jsp-api.jar' )
+    //testCompile 'junit:junit:4.12'
+    //for gradle4.6以上 
+    testImplementation 'junit:junit:4.12'
+
+    //for lombok
+    //providedCompile 'org.projectlombok:lombok:1.18.8'
+    //for gradle4.6以上
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+}
+
+//Java mainより実行する必要がある場合に指定gradle runで実行できる
+//application {
+//    mainClassName = ''
+//}
+
+//test {
+//    useJUnitPlatform()
+//}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }    
+}
+
+war {
+    archiveName = 'oldshop.war'
+}

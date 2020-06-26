@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>ようこそFlowerShop ** flowlist **へ</title>
+  <link rel="icon" type="image/ico" href="images/flowershop.ico">
+
+  <!-- FONT AWESOME 4.7.0 -->
+  <link rel="stylesheet" type="text/css" media="all"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- BUTTER CAKE CSS 4.0.0 -->
+  <link rel="stylesheet" type="text/css" media="all" href="css/butterCake.min.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar expand-lg default-nav bg-primary">
+    <div class="container">
+
+      <!-- LOGO -->
+      <div class="brand">
+        <a href="index.html"><img src="images/flowershop.ico"></a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <section class="main-hero">
+    <img src="images/flowertitle.png" th:src="@{/images/flowertitle.png}">
+    <div class="container text-center">
+      <h1>ようこそ<b>Flower Shopへ</b></h1>
+      <a class="btn primary" href="start">業務を始めるにはログインしてください</a>
+    </div>
+  </section>
+
+  <!-- JQUERY 3.3.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- BUTTER CAKE JS 4.0.0 -->
+  <script sec="js/butterCake.min.js" th:src="@{/js/butterCake.min.js}"></script>
+
+</body>
+
+</html>
