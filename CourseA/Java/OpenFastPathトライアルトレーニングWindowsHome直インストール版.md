@@ -1,10 +1,9 @@
-# OpenFastPathトライアルトレーニングfor  Windows Home直インストール
+# OpenFastPathトライアルトレーニングWindowsHome直インストール版
 -ー　 version 2020.06.26　ー
 
 ## 前提
 
-* 本資料は「Open Fast Pathトレーニング環境構築手順  #3 Windows Home 32bit / BIOS 仮想化不可版」にてWindows Home上に直接ミドルウェアをインストールする必要があるPCに適用する手順である。
-
+* 本資料は「OpenFastPath境構築手順WindowsHome直インストール版」にてWindows Home上に直接ミドルウェアをインストールする必要があるPCに適用する手順である。
 
 ## ミッション「販売を一覧で見えるようにする」
 
@@ -65,9 +64,10 @@
 
 ### トライアル用のソースコードの配置
 
-* Power Shellを起動し、Githubよりダウンロードしたトライアル用ソースコードを開発用のフォルダに配置。
+* Power Shellを起動し、Githubよりトライアル用のキットをダウンロードし開発用のフォルダに配置。
 ```
 cd c:¥workspace
+git clone https://github.com/Open-Fastpath/Trial.git
 cp -rp Trial¥CourseA¥Java¥flowershop-trial .
 ```
 
