@@ -31,7 +31,7 @@
 ### 販売一覧の仕様
 
 * 下記画面遷移までは後述の「トライアルトレーニング用のソースコード」のダウンロードにより提供される
-	* ブラウザで`http://localhost:8090/`で「トップページ」画面表示。（Tomcatなどとポートが衝突しないようにSpring Bootは8090ポートで起動するようにしている。変更する際にはVS Code上から`src¥main¥java¥resources¥application.properties`を開き、server.port=8090）を変更する）
+	* ブラウザで`http://localhost:8090/`で「トップページ」画面表示。（Tomcatなどとポートが衝突しないようにSpring Bootは8090ポートで起動するようにしている。変更する際にはVS Code上から`src\main\java\resources\application.properties`を開き、server.port=8090）を変更する）
 	* トップページ画面にて「業務をはじめるにはログインしてください」をクリック。→ログイン画面に遷移。
 	*  ログイン画面にてユーザーID「tencyo」パスワード「ohanayasan」を入力し「Login」をクリック。→メニュー画面に遷移。
 * 提供するメニュー画面より、下記３カ所から販売一覧画面に遷移する。
@@ -66,35 +66,48 @@
 
 * Power Shellを起動し、Githubよりトライアル用のキットをダウンロードし開発用のフォルダに配置。
 ```
-cd c:¥workspace
+cd c:\workspace
 git clone https://github.com/Open-Fastpath/Trial.git
-cp -rp Trial¥CourseA¥Java¥flowershop-trial .
+cp -Recurse -PassThru
+.\Trial\CourseA\Java\flowershop-trial .
 ```
 
 ### MySQLにデータベーステーブル設定
 
 1. データベース設定ファイル格納フォルダを開く
 
-* VS Codeを起動し、「アクティブバー」の「エクスプローラ」を選び「フォルダーを開く」で`C:¥workspace¥flowershop-trial¥code¥javaapps¥flowershop¥repository¥mysql¥ddl`を開く
+* VS Codeを起動し、「アクティブバー」の「エクスプローラ」を選び「フォルダーを開く」で`C:\workspace\flowershop-trial\code\javaapps\flowershop\repository\mysql\ddl`を開く
 	
 2. 販売管理テーブルの生成
 
 * 「アクティブバー」から「エクスプローラ」を選択し、ファイルより`create_tables.sql`を選択。`SHIFT+CTRL+P`で「コマンドパレット」を開き、「SQLTools:Connection Run This File」を選び、接続先DBに`vs_con_flower_db `を選択して実行。
 * Resultが待ち時間になっている場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」を開き`sales`と`sales_detail`の２つのテーブルが作成されていることを確認。
-	
+* 	VS CodeのSQLToolsでSQLが実行できない場合は、「スタート」の横の検索窓で「MySQL」と入力し「MySQLx.x Comand Line Client」を起動。インストール時に設定したRoot passwordでログイン。SQLファイルを実行する。
+```
+mysql> use flower_db
+Database changed
+mysql> source C:\workspace\flowershop-trial\code\javaapps\flowershop\repository\mysql\ddl\create_tables.sql
+```
+
 3. 販売管理テーブルにテストデータを登録
 	
 * 同様の手順で、ファイルより`insert_sales.sql`を選択しSQLを実行。ファイルを開いた上段に「Run on active connection」と出ていれば左の実行ボタンをクリックして実行しても良い。
 * Resultが待ち時間になっている場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」→「sales」「sales_detail」と開き、「sales」「sales_detail」それぞれの右側にある「Show Table Records」をクリック。レコードが登録されていることを確認する。
+* 	VS CodeのSQLToolsでSQLが実行できない場合は、「スタート」の横の検索窓で「MySQL」と入力し「MySQLx.x Comand Line Client」を起動。インストール時に設定したRoot passwordでログイン。SQLファイルを実行する。（GitよりダウンロードするファイルはUtf8で保存され、データに日本語を含むためそのまま読み込みするとエラーとなる。`C:\workspace\flowershop-trial\code\javaapps\flowershop\repository\mysql\ddl\insert_sales.sql`をメモ帳などで開き、名前をつけて保存で文字コードを`ANSI`にし`insert_sales_CP932.sql`などで保存して実施する。）
+```
+mysql> use flower_db
+Database changed
+mysql> source C:\workspace\flowershop-trial\code\javaapps\flowershop\repository\mysql\ddl\insert_sales_CP932.sql
+```
 
 ### 実装・ビルド・稼働確認
 
 1. ソースコードフォルダのオープン・実装とデバッグ
 	
-* VS Codeの「アクティブバー」から「エクスプローラ」を選び「フォルダを開く」でVS Codeでソースコードのルートディレクトリ`C:¥workspace¥flowershop-trial¥code¥javaapps¥flowershop`を指定し開く。 
-* 「エクスプローラ」で`.vscode`→`setting.json`を開き`java.home`がJDKのインストールディレクトリと一致していることを確認。一致していない場合は修正して保存。
+* VS Codeの「アクティブバー」から「エクスプローラ」を選び「フォルダを開く」でVS Codeでソースコードのルートディレクトリ`C:\workspace\flowershop-trial\code\javaapps\flowershop`を指定し開く。 
+* 「エクスプローラ」で`.vscode`→`setting.json`を開き`java.home`を`"java.home": "C:\\workspace\\jdk",`に修正して保存。
 *  VS Codeのステータスバーの右下で回転マークが動いていたらマークをクリックし、ターミナル上で依存関係があるパッケージのダウンロードとビルドが全てDoneになるまで待つ。（※途中で止まるようであれば下記継続して実施して良い。）
-* 実装し保存すると自動でビルドされる。
+* 今回のテーマ「販売を一覧で見えるようにする」を実装し保存する。
 * VS Codeの「表示」→「問題」にて VS Codeの自動コンパイルがなされて検知できる問題がリアルタイムに表示される。
 * 表示箇所をクリックすると問題箇所にジャンプするため対象箇所を修正する。
 * 問題によっては問題箇所にマウスオーバーするとクイックフィックスのリンクが表示されることがある。クイックフィックスの不具合修正が妥当かは人による判断が必要なものもあるため確認せずに反映しないように注意すること。
@@ -135,14 +148,14 @@ spring.datasource.url=jdbc:mysql://localhost:3306/flower_db?serverTimezone=JST
 	
 * Power Shellを起動し、下記手順でスケルトンプログラムも作業ディレクトリに反映する。
 ```
-cd C:¥workspace¥flowershop-trial
-cp .¥skeleton¥ . -Force	
+cd C:\workspace\flowershop-trial\
+cp -Recurse -Force .\skeleton\code .
 ```
 
 2. スケルトンプログラムでの実装
 
 * 実装対象オブジェクト
-※VS Code上は`src¥main¥java¥jp¥flowershop`配下のパスから記載
+※VS Code上は`src\main\java\jp\flowershop`配下のパスから記載
 	* application/SalesApplication.java
 	* contoroller/SalesListController.java
 	* domain/Sales.java   
@@ -204,8 +217,9 @@ public class SalesListController {
 	* images       HTMLより利用するイメージファイル
 	* templates/saleslistview.html     販売一覧画面のHTMLテンプレート
 	* templates/navi.html        共通のナビゲーションメニューのHTMLテンプレート
-
-* 	実装手順は上記プログラム上の実装箇所に`[FOR TRIAL]`のキーワードで詳細な実装方法を記載しているため記述の通りに実装する。	
+	
+* 	実装手順は上記プログラム上の実装箇所に`[FOR TRIAL]`のキーワードで詳細な実装方法を記載しているため記述の通りに実装する。
+* 依存関係などがエラーとなる場合は、`Ctrl+Shift+p`でコマンドパレットを起動し、検索窓に「clean」と入力。「Java: Clean the Java language server workspace」を実行すると再度ビルドが走る。右下の回転マークをkクリックすると「ターミナル」にビルドの状況が見える様になる。	
 
 - - - -
 
@@ -234,8 +248,7 @@ public class SalesListController {
 	* JREのインストールディレクトリは`C:¥workspace¥jdk`を指定。
 	* インストール先は`C:¥workspace¥tomcat`に変更
 	* 「Run Apache Tomcat」と「Show Readme」はチェックを外して完了。
-* 「スタート」→「設定」→「システム」→「バージョン情報」→「システムの情報」をクリックし、左メニューの「システムの詳細設定」をクリック。「環境変数」ボタンをクリックし、「システム環境変数」の「新規」をクリック。現れたダイアログで「変数名」に`JAVA_HOME`「変数値」は「ディレクトリの参照」をクリックし`C:¥workspace¥jdk`を選択。
-* 「システム環境変数」の「新規」をクリック。現れたダイアログで「変数名」に`CATALINA_HOME`「変数値」は「ディレクトリの参照」をクリックし`C:¥workspace¥tomcat`を選択。
+* 「スタート」の横の検索窓で「システム環境変数」と入力し「システム環境変数の編集」をクリック。「システムのプロパティ」で「環境変数」をクリック。「システム環境変数」の「新規」をクリック。現れたダイアログで「変数名」に`CATALINA_HOME`「変数値」は「ディレクトリの参照」をクリックし`C:¥workspace¥tomcat`を選択。
 * Power Shellを起動し、下記コマンドで環境変数が設定されていることを確認。(※コマンドラインの場合は%環境変数%だがPower Shellの場合は$env:環境変数。)
 ```
 echo $env:JAVA_HOME	
@@ -251,8 +264,8 @@ java.util.logging.ConsoleHandler.encoding = SJIS
 
 *  Tomcatのサービスをスタート（※プロンプトが文字化けする場合は左上のアイコンをクリックし「プロパティ」→「フォント」で「BIZ UIゴシック」を選択。）
 ```
-cd $env:CATALINA_HOME¥bin
-.¥startup.bat
+cd $env:CATALINA_HOME\bin
+.\startup.bat
 ```
 
 * Tomcatのターミナルが起動され、ファイヤウォールを許可するか確認するダイアログが表示されるため、「許可する」をクリック。
@@ -260,8 +273,8 @@ cd $env:CATALINA_HOME¥bin
 * ブラウザで`http://localhost:8080/manager`を入力し,、認証でインストール時に指定した`tomcatmanager`をユーザIDとパスワードに指定。Tomcatの管理ページが表示されることを確認。
 * Power ShellのターミナルでTomcatのサービスを停止
 ```
-cd $env:CATALINA_HOME¥bin
-.¥shutdown.bat
+cd $env:CATALINA_HOME\bin
+.\shutdown.bat
 ```
 
 ### デモプログラムのビルド
@@ -270,14 +283,14 @@ cd $env:CATALINA_HOME¥bin
 
 * Power Shellを起動し、Githubよりダウンロードしたデモプログラムのソースコードを開発用のフォルダに配置。
 ```
-cd c:¥workspace
-cp -rp Trial¥CourseA¥Java¥oldshop-demo .
+cd c:\workspace
+cp -Recurse -PassThru .\Trial\CourseA\Java\oldshop-demo .
 ```
 
 2. デモアプリケーションをGradleでビルド
 
-* VS Codeを起動しメニューの「ファイル」→「フォルダを開く」で`C:¥workspace¥oldshop-demo`フォルダを開く。
-*  Windows環境の場合、導入されるmysqlのドライバが5.x系の場合、timezoneが認識されない不具合があるため、`webapp¥META-INF¥context.xml`に設定しているデータソースの接続定義に明示的にタイムゾーンの指定を追加する。
+* VS Codeを起動しメニューの「ファイル」→「フォルダを開く」で`C:\workspace\oldshop-demo`フォルダを開く。
+*  Windows環境の場合、導入されるmysqlのドライバが5.x系の場合、timezoneが認識されない不具合があるため、`webapp\META-INF\context.xml`に設定しているデータソースの接続定義に明示的にタイムゾーンの指定を追加する。
 ```
     url="jdbc:mysql://localhost:3306/flower_db?serverTimezone=JST"/>
 ```
@@ -289,7 +302,7 @@ compileOnly files('C:\\workspace\\tomcat\\lib\\servlet-api.jar', 'C:\\workspace\
 * `Ctrl+Shift+P`でコマンドパレットを開き、「タスク：ビルドタスクの実行」を選択し、WARファイル（Web application ARchive）を生成する。（事前に配布されているbuild.gradleの設定に従いコンパイルからパッケージングまで実行される）
 * PowerShellでビルドツールgradleを用い、WARファイル（Web application ARchive）を生成することも可能。
 ```
-cd .¥oldshop-demo¥
+cd .\oldshop-demo\
 gradle build
 gradle war	
 ```
@@ -302,24 +315,24 @@ TomcatなどのWebアプリケーションサーバでは、WARファイルをWe
 通常はアプリケーションのコンテキストルート（Webからアクセスした場合にhttp://ドメイン名/でアクセスできるルートディレクトリ）の直下にWARファイルを配置すると、http://ドメイン名/(WARファイル名の.warを除いた名称)でアクセスすることができる。
 ```
 
-* 「gradle」の実行結果として`BUILD SUCCESSFUL`が表示されたら、PowerShell、またはVS Codeでメニューから「表示」→「ターミナル」を選択し、`c:¥workspace¥oldshop-demo`フォルダで`ls .¥build¥libs`を実行して`oldshop.war`が作成されていることを確認。
+* 「gradle」の実行結果として`BUILD SUCCESSFUL`が表示されたら、PowerShell、またはVS Codeでメニューから「表示」→「ターミナル」を選択し、`c:\workspace\oldshop-demo`フォルダで`ls .\build\libs`を実行して`oldshop.war`が作成されていることを確認。
 
 ### Tomcatへのデプロイ
 
 1. PowerShell、たはVS Codeでメニューから「表示」→「ターミナル」を選択し、ビルドされたWARファイルをTomcatのWebアプリケーションフォルダに配置
 ```
-cp .¥build¥libs¥oldshop.war $env:CATALINA_HOME¥webapps¥. -Force	
+cp .\build\libs\oldshop.war $env:CATALINA_HOME\webapps\. -Force	
 ```
 
 2. PowerShell、たはVS Codeでメニューから「表示」→「ターミナル」を選択し、MySQLのJDBCドライバをTomcatのライブラリフォルダに配置
 ```
-cp .¥tomcat_lib¥mysql-connector-java-8.0.20.jar $env:CATALINA_HOME¥lib¥. -Force	
+cp C:\workspace\Trial\CourseA\Java\oldshop-demo\tomcat_lib\mysql-connector-java-8.0.20.jar $env:CATALINA_HOME\lib\.
 ```
 
 3. Tomcatの再起動
 ```
-cd C:¥workspace¥tomcat¥bin¥
-.¥startup.bat
+cd C:\workspace\tomcat\bin\
+.\startup.bat
 ```
 
 ### デモアプリーケーションの動作確認

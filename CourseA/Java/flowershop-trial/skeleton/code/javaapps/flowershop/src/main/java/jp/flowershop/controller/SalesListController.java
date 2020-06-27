@@ -14,8 +14,8 @@ package jp.flowershop.controller;
   * （２）クラス宣言の前にSpring Bootが本クラスをControllerと認識し自動設定するための
   *      アノテーションを追加します。
   *      --------------------------------------------------------
-  *      @@Controller
-  *      @EnableAutoConfiguratio
+  *      @Controller
+  *      @EnableAutoConfiguration
   *
   * （３）利用するアプリケーションSalesApplicationをインタフェースをprivateメンバで宣言し
   *      Spring BootがSalesApplicationで実装されるServiceとして必要な初期化を自動で実装

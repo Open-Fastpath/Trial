@@ -4,7 +4,6 @@
         type="javax.sql.DataSource" 
         maxTotal="100"
         maxIdle="30" 
-        maxWaitMills="10000" 
         username="user" 
         password="password" 
         driverClassName="com.mysql.jdbc.Driver" 

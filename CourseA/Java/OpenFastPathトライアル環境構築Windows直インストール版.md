@@ -9,12 +9,12 @@
 
 ### 環境準備の流れと所要時間
 
-1. OpenJDKのインストール＜7分＞
+1. OpenJDKのインストール＜5分＞
 2. Gradleのインストール＜3分＞
 3. Graphvizのインストール＜2分＞
 4. MySQLのインストール＜20分＞
 5. Gitクライアントのインストール＜5分＞
-6. Visual Studio Codeのインストール＜3分＞
+6. Visual Studio Codeのインストール＜5分＞
 7. SQLToolsのインストールと設定＜5分＞
 8. Web開発関連拡張機能のインストールと設定＜15分＞
 
@@ -31,11 +31,10 @@
 * [Gradle | Releases](https://gradle.org/releases/)よりv6.５のDownloadから「binary-only」をクリックし`gradle-6.5-bin.zip`をダウンロード。解凍した`gradle-6.5-bin¥gradle-6.5`フォルダの下を`C:¥workspace¥gradle`に移動。
 * 	「スタート」の横の検索窓で「システム環境変数」と入力し「システム環境変数の編集」をクリック。「システムのプロパティ」で「環境変数」をクリック。「環境変数」ボタンをクリックし、「ユーザー環境変数」の「新規」をクリック。現れたダイアログで「変数名」に`GRADLE_HOME`「変数値」は「ディレクトリの参照」をクリックし`C:¥workspace¥gradle`を選択。
 * 	「システム環境変数」より「Path」を選択し「編集」をクリック。現れたダイアログで「新規」で行を追加。「参照」をクリックし`C:¥workspace¥gradle¥bin`を選択。「OK」をクリック。以後の画面を終了する。
-* Power Shellを開き直し、`gradle -v`でGradleのバージョンが6.x以上で表示されることを確認。
+* Power Shellを開き直し、`gradle -v`でGradleのバージョンが6.x以上で表示されることを確認。（初回は時間がかかるが待つ）
 
 ### Graphvizのインストール
 
-* `C:¥workspace¥graphviz`フォルダを作成。
 * [AppVeyor](https://ci.appveyor.com/project/ellson/graphviz-pl238/builds/32032002/job/yih2iyesctaji7wa/artifacts)よりzipファイルをダウンロード。（サイト構造が変わり不可の場合は、[Graphviz - Graph Visualization Software](http://www.graphviz.org/)→「Download」→「Stable .... Windows install packages」→ 「Environment: build_system=msbuild; Configuration: Release」→ 「Artifacts」にてzipダウンロードにたどる。） 
 * ダウンロードしたZIPを解凍し、配下の`Graphviz`フォルダを`C:¥workspace`にコピー。
 * スタート」の横の検索窓で「システム環境変数」と入力し「システム環境変数の編集」をクリック。「システムのプロパティ」で「環境変数」をクリック。「環境変数」ボタンをクリックし、「ユーザー環境変数」の一覧から「Path」を選択。「編集」をクリック。現れたダイアログで「新規」で行を追加。「参照」をクリックし`C:¥workspace¥Graphviz¥bin`を選択。「OK」をクリック。以後の画面を終了する。
@@ -44,10 +43,9 @@
 ### MySQLインストール
 
 *  `C:¥workspace¥mysql¥log`フォルダを作成。
-* [MySQL Installer for Windows](https://dev.mysql.com/downloads/windows/) よりversion8.0.2 32bit向けインストーラをダウンロードしインストール。（もしくは[MySQL :: Download MySQL Installer (Archived Versions)](https://downloads.mysql.com/archives/installer/)より製品バージョンを5.7.xを選択しダウンロードしインストールする。）
+* [MySQL Installer for Windows](https://dev.mysql.com/downloads/windows/) よりversion8.0.2 32bit向けインストーラをダウンロードしインストール。
 * InstallerのUpgradeが聞かれるが「No」
 * 「Server Only」を選択し「Next」
-* 「upgrade now?」と聞かれるが「no」を選択。 
 * 「Check Requiirement」で全て選択して「Execute」を実行し、前提となるライブラリをインストールしてから「Next」をクリック。
 * High Availabilityは「Standard MySQL Server / Classic MySQL Replication」を選択し「Next」
 * Type and Networkingは「Port」を「59306」に変更。「Show Advanced and Logging Option」にチェックを入れて「Next」
@@ -61,7 +59,7 @@
 	* General Log   チェックを入れ、`mysql.general.txt`をファイル名にする。
 	* 	Slow Query Log    `mysql-slow.txt`をファイル名にする。
 * 以後はデフォルトのまま進み「Execute」でインストール。
-* インストール完了後、MySQLの言語設定がデフォルトはUTF-8のため、Windowsでのデータが扱えるようサーバの言語設定を`latin1`から`utf8mb4`に変更するため、`C:¥ProgramData¥MySQL¥MySQL Server x.x¥my.ini`の`character_set_server= utf8mb4 `を追記して保存する。（隠しフォルダであるため、Windowsボタン＋Rなどで`C:¥ProgramData¥MySQL¥MySQL Server x.x`を入力して開く）
+* インストール完了後、Windowsでのデータが扱えるようサーバの言語設定を`latin1`から`utf8mb4`に変更する。`C:¥ProgramData¥MySQL¥MySQL Server 8.0¥my.ini`の`character_set_server=utf8mb4`を追記して保存する。（隠しフォルダであるため、エクスプローラの表示で隠しフォルダを表示できる様にする。）
 ```
 # The default character set that will be used when a new schema or table is
 # created and no character set is defined
@@ -79,7 +77,7 @@ default-authentication-plugin=mysql_native_password
 * 「スタート」の横の検索窓で「MySQL」と入力し「MySQLx.x Comand Line Client」を起動。インストール時に設定したRoot passwordでログイン。
 * mysqlのコマンドラインになったら`create database flower_db;`を実行しデータベースを作成。
 * `GRANT ALL ON flower_db.* TO user;`でユーザー`user`に全権限を付与。
-* `show variables like "cha%"`で`character_set_server `が`utf8mb4`になっていることを確認。
+* `show variables like "cha%";`で`character_set_server `が`utf8mb4`になっていることを確認。
 
 ```
 +--------------------------+---------------------------------------------------------+

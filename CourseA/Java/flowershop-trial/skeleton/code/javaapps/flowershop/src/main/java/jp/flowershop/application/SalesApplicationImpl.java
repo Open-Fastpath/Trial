@@ -29,7 +29,7 @@ import jp.flowershop.domain.Sales;
  * ここにこのクラスがユースケースを担いデータ永続化のトランザクションもになう
  * ビジネスサービスのアプリケーションであることをアノテーションで宣言します。
  * 呼び出し元のControllerクラスでメンバ変数としてインタフェースが定義され
- * @Autowiredのアノテーションが記載されているとSpring Bootが
+ * @Autowiredのアノテーションが記載されているとSpring Bootが検知します。
  * -----------------------------------------
  * @Service
  * @Transactional
@@ -63,6 +63,7 @@ public class SalesApplicationImpl implements SalesApplication {
              * [FOR TRIAL]
              * salesのリポジトリで自動生成sれたfindAllメソッドを使い
              * salesテーブルのデータをSalesクラスのList型でデータを取り込みます。
+             */
 
             /**
              * [FOR TRIAL]

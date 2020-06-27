@@ -11,7 +11,7 @@ package jp.flowershop.repository;
  * 
  * （１）下記3つのオプジェクトを参照のためにimport宣言します。
  *      -------------------------
- *      jorg.springframework.data.jpa.repository.JpaRepository
+ *      org.springframework.data.jpa.repository.JpaRepository
  *      org.springframework.stereotype.Repository
  *      jp.flowershop.domain.Sales
  * 
