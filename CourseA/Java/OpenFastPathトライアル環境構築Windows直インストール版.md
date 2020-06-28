@@ -12,13 +12,11 @@
 1. OpenJDKのインストール＜5分＞
 2. Gradleのインストール＜3分＞
 3. Graphvizのインストール＜2分＞
-4. MySQLのインストール＜20分＞
+4. MySQLのインストールと設定＜20分＞
 5. Gitクライアントのインストール＜5分＞
-6. Visual Studio Codeのインストール＜5分＞
-7. SQLToolsのインストールと設定＜5分＞
-8. Web開発関連拡張機能のインストールと設定＜15分＞
+6. Visual Studio Codeのインストールと設定＜10分＞
 
-## OpenJDKインストール
+### OpenJDKインストール
 
 * `C:¥workspace¥jdk`フォルダを作成。
 * OpenJDK11を[AdoptOpenJDK - Open source, prebuilt OpenJDK binaries](https://adoptopenjdk.net/)にアクセスし、OpenJDK 11 (LTS)のHotSpot版を選択し「Latest Release」をクリックしてダウンロード
@@ -40,7 +38,7 @@
 * スタート」の横の検索窓で「システム環境変数」と入力し「システム環境変数の編集」をクリック。「システムのプロパティ」で「環境変数」をクリック。「環境変数」ボタンをクリックし、「ユーザー環境変数」の一覧から「Path」を選択。「編集」をクリック。現れたダイアログで「新規」で行を追加。「参照」をクリックし`C:¥workspace¥Graphviz¥bin`を選択。「OK」をクリック。以後の画面を終了する。
 * Power Shellを開き直し、`dot -v`でGraphvizのバージョンが表示されることを確認。`Ctrl+c`で終了。
 
-### MySQLインストール
+### MySQLインストールと設定
 
 *  `C:¥workspace¥mysql¥log`フォルダを作成。
 * [MySQL Installer for Windows](https://dev.mysql.com/downloads/windows/) よりversion8.0.2 32bit向けインストーラをダウンロードしインストール。
@@ -107,7 +105,7 @@ mysql> quit
 
 * [Git for Windows](https://gitforwindows.org/)より「ダウンロード」をクリックし、インストーラを起動。デフォルト設定を変更せずインストール。
 
-### Visual Studio Codeのインストール
+### Visual Studio Codeのインストールと設定
 
 * Visual Studio Code（以後VS Code）のダウンロードサイトから利用OSに合わせたインストーラをダウンロードし実行。
 [Download Visual Studio Code - Mac, Linux, Windows](https://code.visualstudio.com/download)

@@ -23,8 +23,8 @@ sudo usermod -aG docker $USER
 sudo gpasswd -a $USER docker
 # 表示設定更新
 cd ~/Trial/CourseA/Java/flowershop-trial-env
-cp -p linux-settings/.bashrc .
-cp -rp linux-settings/.vim* .
-cp -p linux-settings/.colorrc .
+cp -p linux-settings/.bashrc ~/.
+cp -rp linux-settings/.vim* ~/.
+cp -p linux-settings/.colorrc ~/.
 # 再起動
 sudo reboot

@@ -9,17 +9,14 @@
 
 ### 環境準備の流れと所要時間
 
-1. Dockerによる仮想サーバ環境の準備＜10分＞
-2. Open JDKのインストール＜10分＞
+1. Dockerのインストール＜10分＞
+2. Open JDKのインストール＜5分＞
 3. Gradleのインストール＜3分＞
-4. Graphvizのインストール＜3分＞
-5. Visual Studio Codeのインストール＜5分＞
-6. リモート接続のインストールと設定＜3分＞
-7. 
-8. トレーニングコンテンツダウンロード＜5分＞
+4. Graphvizのインストール＜2分＞
+5. Dockerサービスのビルドと起動＜10分＞
+6. Visual Studio Codeのインストールと設定＜10分＞
 
-### Dockerによる仮想サーバ環境の準備
-[想定所要時間 10分]
+### Dockerのインストール
 
 * Docker HubのサイトにてDocker Hubのユーザーを作成し、Docker for Macをダウンロード。何も設定を変更しないでインストール。※インストーラの起動に時間がかかるが待つこと。
 [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
@@ -38,7 +35,6 @@ brew install docker
 * ターミナルを起動し`docker version`にてClientとServer両方が表示されることを確認。
 
 ### Open JDKのインストール
-[想定所要時間 5分]
 
 Visual Studio CodeからUbuntu上で開発しJavaの入っているコンテナへ今後のトレーニングでリリースをするため、ホストOS上にもOpenJDKをインストールする。
 
@@ -87,7 +83,6 @@ brew install graphviz
 ```
 
 ### Dockerサービスのビルドと起動
-[想定所要時間 10分]
 
 1. トライアル環境のダウンロード
 

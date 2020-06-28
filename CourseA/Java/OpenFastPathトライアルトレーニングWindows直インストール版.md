@@ -125,7 +125,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/flower_db?serverTimezone=JST
 
 2. 実装後のビルドとデバッグ
 	
-* 「Ctrl/Command」＋「Shift」+Pでコマンドパレットを開き`task`と入力。タスク：ビルドタスクの実行を選択し、ターミナルでGradleのbuildタスクを実行する。`BUILD SUCCESSFUL`が表示されたら次のSpring Bootを実行する`BUILD FAILED`が表示されたらログから原因を解析し修正する。
+* `Ctrl/Command+Shift+p`でコマンドパレットを開き`task`と入力。タスク：ビルドタスクの実行を選択し、ターミナルでGradleのbuildタスクを実行する。`BUILD SUCCESSFUL`が表示されたら次のSpring Bootを実行する`BUILD FAILED`が表示されたらログから原因を解析し修正する。
 	
 ```
 ーVS Codeのタスクの設定ー

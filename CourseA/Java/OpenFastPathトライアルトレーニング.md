@@ -73,36 +73,31 @@ cp -rp ~/Trial/CourseA/Java/flowershop-trial .
 ### MySQLにデータベーステーブル設定
 
 1. MySQLのデータベースコンテナが起動されていることを確認
-`docker ps`で`flower_db_mysql`が起動されていることを確認し、起動していない場合、下記にて実行
-```
-cd ~/workspace/flowershop/docker/util
-bash c1-build_and_start_compose.sh 
-```
+
+* 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択し、再生ボタンとなり稼働したことを確認。 	
 
 2. データベーススクリプトのフォルダに移動しVS Code起動
-```
-~/workspace/flowershop-trial/code/javaapps/flowershop/repository
-code .
-```
-	
-4. 販売管理テーブルの生成
 
-* 「アクティブバー」から「エクスプローラ」を選択し、ファイルより`create_tables.sql`を選択。`SHIFT+CTRL+P`で「コマンドパレット」を開き、「SQLTools:Connection Run This File」を選び、接続先DBに`vs_con_flower_db `を選択して実行。
-* Resultが待ち時間になっている場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」を開き`sales`と`sales_detail`の２つのテーブルが作成されていることを確認。
+* 「アクティブバー」から「エクスプローラ」を選択し、「フォルダを開く」で`~/workspace/flowershop-trial/code/javaapps/flowershop/repository/mysql/ddl`を選択。
+	
+3. 販売管理テーブルの生成
+
+* 「エクスプローラ」にて`create_tables.sql`を選択。`SHIFT+CTRL+P`で「コマンドパレット」を開き、「SQLTools:Connection Run This File」を選び、接続先DBに`vs_con_flower_db `を選択して実行。
+* エラーが表示される、もしくは待ち時間が長い場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」を開き`sales`と`sales_detail`の２つのテーブルが作成されていることを確認。
 	
 5. 販売管理テーブルにテストデータを登録
 	
 * 同様の手順で、ファイルより`insert_sales.sql`を選択しSQLを実行。ファイルを開いた上段に「Run on active connection」と出ていれば左の実行ボタンをクリックして実行しても良い。
-* Resultが待ち時間になっている場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」→「sales」「sales_detail」と開き、「sales」「sales_detail」それぞれの右側にある「Show Table Records」をクリック。レコードが登録されていることを確認する。
+* エラーが表示される、あるいは待ち時間が長い場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」→「sales」「sales_detail」と開き、「sales」「sales_detail」それぞれの右側にある「Show Table Records」をクリック。レコードが登録されていることを確認する。
 
 ### 実装・ビルド・稼働確認
 
 1. ソースコードフォルダのオープン・実装とデバッグ
 
-* VS Codeの「アクティブバー」から「エクスプローラ」を選び「フォルダを開く」でVS Codeでソースコードのルートディレクトリ`~/workspace/flowershop-trial/code/javaapps/flowershop`のフォルダ開くする。
+* VS Codeの「アクティブバー」から「エクスプローラ」を選び「フォルダを開く」でVS Codeでソースコードのルートディレクトリ`~/workspace/flowershop-trial/code/javaapps/flowershop`のフォルダ開く。
 * 「エクスプローラ」で`.vscode`→`setting.json`を開き`java.home`がJDKのインストールディレクトリと一致していることを確認。一致していない場合は修正して保存。
 *  VS Codeのステータスバーの右下で回転マークが動いていたらマークをクリックし、ターミナル上で依存関係があるパッケージのダウンロードとビルドが全てDoneになるまで待つ。（※途中で止まるようであれば下記継続して実施して良い。）
-* 実装し保存すると自動でビルドされる。
+* 今回のテーマ「販売を一覧で見えるようにする」を実装し保存する。
 * VS Codeの「表示」→「問題」にて VS Codeの自動コンパイルがなされて検知できる問題がリアルタイムに表示される。
 * 表示箇所をクリックすると問題箇所にジャンプするため対象箇所を修正する。
 * 問題によっては問題箇所にマウスオーバーするとクイックフィックスのリンクが表示されることがある。クイックフィックスの不具合修正が妥当かは人による判断が必要なものもあるため確認せずに反映しないように注意すること。
@@ -116,7 +111,7 @@ code .
 
 2. 実装後のビルドとデバッグ
 	
-* 「Ctrl/Command」＋「Shift」+Pでコマンドパレットを開き`task`と入力。タスク：ビルドタスクの実行を選択し、ターミナルでGradleのbuildタスクを実行する。`BUILD SUCCESSFUL`が表示されたら次のSpring Bootを実行する`BUILD FAILED`が表示されたらログから原因を解析し修正する。
+* `Ctrl/Command+Shift+p`でコマンドパレットを開き`task`と入力。タスク：ビルドタスクの実行を選択し、ターミナルでGradleのbuildタスクを実行する。`BUILD SUCCESSFUL`が表示されたら次のSpring Bootを実行する`BUILD FAILED`が表示されたらログから原因を解析し修正する。
 	
 ```
 ーVS Codeのタスクの設定ー
@@ -127,7 +122,7 @@ code .
 
 * VS Codeのメニューで「実行」→「デバッグの開始」を選択。
 * 起動される「デバッグコンソール」（自動起動されない場合はVS Codeのメニューで「表示」→「デバッグコンソール」を選択し表示）でSpring Bootが起動されることを確認。
-* ブラウザにて`http://localhost:8090/`でトップページを表示し、ログイン画面（ユーザID：tencyo  パスワード：ohanayasan）→メニュー画面→販売一覧画面に遷移しデータが表示されることを確認。 
+* ブラウザにて`http://localhost:8090/`（VMware、Hyper-VはlocalhostをUbuntuのIPアドレスに置き換え）でトップページを表示し、ログイン画面（ユーザID：tencyo  パスワード：ohanayasan）→メニュー画面→販売一覧画面に遷移しデータが表示されることを確認。 
 
 - - - -
 
@@ -138,13 +133,13 @@ code .
 スケルトンプログラムは、「トライアル用のソースコードのダウンロード」でダウンロードしたファイルに含まれている。下記手順でスケルトンプログラムも作業ディレクトリに反映する。
 ```
 cd ~workspace/flowershop-trial
-cp -rp skeleton/* .
+cp -rp skeleton/code .
 ```
 
 2. スケルトンプログラムでの実装
 	
 * 実装対象オブジェクト
-※VS Code上はsrc_main_java_jp_flowershop配下のパスから記載
+※VS Code上は`src/main/java/jp/flowershop`配下のパスから記載
 	* application/SalesApplication.java
 	* contoroller/SalesListController.java
 	* domain/Sales.java   
@@ -209,6 +204,7 @@ public class SalesListController {
 	* templates/navi.html        共通のナビゲーションメニューのHTMLテンプレート
 
 * 	実装手順は上記プログラム上の実装箇所に`[FOR TRIAL`のキーワードで詳細な実装方法を記載しているため記述の通りに実装する。	
+* 依存関係などがエラーとなる場合は、`Ctrl+Shift+p`でコマンドパレットを起動し、検索窓に「clean」と入力。「Java: Clean the Java language server workspace」を実行すると再度ビルドが走る。右下の回転マークをkクリックすると「ターミナル」にビルドの状況が見える様になる。	
 
 - - - -
 
@@ -251,32 +247,40 @@ sudo chown -R tomcat.tomcat apache-tomcat-9.0.34
 cd tomcat
 sudo chmod 770 conf logs lib webapps temp work
 sudo chmod 644 conf/*
+sudo chmod 664 logs/*
 ```
 
 3. Tomcatの管理機能をインストール
 ```
-sudo apt-get install tomcat9-admin
+sudo apt-get install tomcat9-admin -y
 ```
 
 4. Tomcat管理Webの管理者ユーザを追加
  `/usr/local/tomcat/conf/tomcat-users.xml`の最終行`</tomcat-users>`の前に下記を追加する
 ```
-<user username="tomcatadmin" password="tomcatadmin" roles="manager-gui,admin-gui"/>>
+<user username="tomcatadmin" password="tomcatadmin" roles="manager-gui,admin-gui"/>
 ```
 
-5.  Tomcat を起動する
+5. Tomcat管理Webのアクセス可能IPを追加（デフォルトでは127.0.0.1のみアクセス可能となっているため仮想ネットワークでアクセスするVMware、Hyper-VはローカルIPからのアクセスを許可する様に追加する必要がある。）
+ `/usr/local/tomcat/webapps/manager/META-INF/context.xml`の`allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />`の行を下記に編集する。（下記では`192.168.0.0/24`のIPアドレスでのアクセスを許可している。）
+```
+allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1|192\.168\.\d+\.\d+" />
+```
+
+6.  Tomcat を起動する
 ※起動中の場合は`bash catalina.sh stop`を実行してから`start `を実行する。
 ```
 cd /usr/local/tomcat/bin
-bash catalina.sh start
-sudo chown tomcat.tomcat logs/*
-sudo chown 666 logs/*
+bash startup.sh
+(起動後に作成されたファイルのオーナーを変更)
+sudo chown tomcat.tomcat ../logs/*
+sudo chmod 664 ../logs/*
 ```
 
 6. ブラウザで確認する。
 
-* `http://localhost:8080/`でTomcatのWelcome画面の表示を確認。
-* `http://locahost:8080/manager`にアクセスし、ログインのダイアログで4.で指定したユーザIDとパスワードを入力し、管理者画面が表示されることを確認。
+* `http://localhost:8080/`（VMware、Hyper-VはlocalhostをUbuntuのIPアドレスに置き換え）でTomcatのWelcome画面の表示を確認。
+* `http://locahost:8080/manager`（VMware/Hyper-V/Raspvberry PIはlocalhostをUbuntuのIPアドレスに置き換え）にアクセスし、ログインのダイアログで4.で指定したユーザIDとパスワードを入力し、管理者画面が表示されることを確認。
 
 ### デモプログラムのビルド
 
@@ -314,16 +318,17 @@ TomcatなどのWebアプリケーションサーバでは、WARファイルをWe
 cp -p ~/workspace/oldshop-demo/build/libs/oldshop.war /usr/local/tomcat/webapps/.
 ```
 
-2. MySQL/MariaDBのJDBCドライバをTomcatのライブラリフォルダに配置
+2. MySQL/MariaDBのJDBCドライバをTomcatのライブラリフォルダに配置（Raspberry PIの場合は`mysql-connector-java-8.0.20.jar`の代わりに`mariadb-java-client-2.6.0.jar`を配備する。）
 ```
-cp -p ~/workspace/oldshop-demo/tomcat_lib/*.jar $CATALINA_HOME/lib/. 
+sudo cp -p ~/Trial/CourseA/Java/oldshop-demo/tomcat_lib/mysql-connector-java-8.0.20.jar /usr/local/tomcat/lib/. 
+sudo chown tomcat.tomcat /usr/local/tomcat/lib/mysql-connector-java-8.0.20.jar 
 ```
 
 3. Tomcatの再起動
 ```
 cd /usr/loca/tomcaat/bin
-bash catalina.sh stop
-bash catalina.sh start
+bash shutdown.sh
+bash startup.sh
 ```
 
 ### デモアプリーケーションの動作確認
@@ -344,11 +349,8 @@ bash catalina.sh start
 
 ### デモアプリーケーションのソースコード確認
 
-1. ターミナルでソースコードのルートフォルダに移動しVS Code起動
-```
-cd ~/workspace/oldshop-demo/
-code .
-```
+
+1. VS Codeの「アクティブバー」から「エクスプローラ」を選び「フォルダを開く」でVS Codeでソースコードのルートディレクトリ`~/workspace/oldshop-demo`のフォルダ開く。
 
 2. デモアプリケーションの構造をデモアプリケーション解説」を参照しながら確認
 
