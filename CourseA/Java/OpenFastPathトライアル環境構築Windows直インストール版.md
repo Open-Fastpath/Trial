@@ -29,7 +29,7 @@
 * [Gradle | Releases](https://gradle.org/releases/)よりv6.５のDownloadから「binary-only」をクリックし`gradle-6.5-bin.zip`をダウンロード。解凍した`gradle-6.5-bin¥gradle-6.5`フォルダの下を`C:¥workspace¥gradle`に移動。
 * 	「スタート」の横の検索窓で「システム環境変数」と入力し「システム環境変数の編集」をクリック。「システムのプロパティ」で「環境変数」をクリック。「環境変数」ボタンをクリックし、「ユーザー環境変数」の「新規」をクリック。現れたダイアログで「変数名」に`GRADLE_HOME`「変数値」は「ディレクトリの参照」をクリックし`C:¥workspace¥gradle`を選択。
 * 	「システム環境変数」より「Path」を選択し「編集」をクリック。現れたダイアログで「新規」で行を追加。「参照」をクリックし`C:¥workspace¥gradle¥bin`を選択。「OK」をクリック。以後の画面を終了する。
-* Power Shellを開き直し、`gradle -v`でGradleのバージョンが6.x以上で表示されることを確認。（初回は時間がかかるが待つ）
+* Power Shellを開き、`gradle -v`でGradleのバージョンが6.x以上で表示されることを確認。（初回は時間がかかるが待つ）
 
 ### Graphvizのインストール
 
