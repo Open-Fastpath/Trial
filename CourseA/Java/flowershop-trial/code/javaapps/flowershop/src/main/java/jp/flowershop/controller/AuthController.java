@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.flowershop.exception.InputException;
 import jp.flowershop.exception.StatusException;
@@ -14,11 +15,10 @@ import jp.flowershop.exception.SystemException;
 public class AuthController {
 
     @GetMapping("/start")
-    public String service(Model model)
+    public String service(@RequestParam String error, Model model)
     throws InputException, StatusException, SystemException {
        
-        //修正　input.getString -> (String)model.getAttribute
-        String error = (String)model.getAttribute("error");
+        //修正　input.getString -> @RequestParam String error
         String errorMessage = "";
 
         if(error != null) {
