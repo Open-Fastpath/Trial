@@ -9,36 +9,24 @@
 
 ### 環境準備の流れと所要時間
 
-1. Dockerのインストール＜10分＞
-2. Open JDKのインストール＜5分＞
-3. Gradleのインストール＜3分＞
-4. Graphvizのインストール＜2分＞
+1. Open JDKのインストール＜5分＞
+2. Gradleのインストール＜3分＞
+3. Graphvizのインストール＜2分＞
+4. Dockerのインストール＜10分＞
 5. Dockerサービスのビルドと起動＜10分＞
 6. Visual Studio Codeのインストールと設定＜10分＞
-
-### Dockerのインストール
-
-* Docker HubのサイトにてDocker Hubのユーザーを作成し、Docker for Macをダウンロード。何も設定を変更しないでインストール。※インストーラの起動に時間がかかるが待つこと。
-[Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
-* Docker for Macを起動。※通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。
-* Home brewがインストールされていない場合は下記にてHome brewをインストール（管理者パスワードが聞かれるため入力する。）
-※「bluestacks」がインストールされている場合アンインストールする
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-```
-
-* dockerをインストール。※docker-composeも導入される。
-```
-brew install docker
-```
-
-* ターミナルを起動し`docker version`にてClientとServer両方が表示されることを確認。
 
 ### Open JDKのインストール
 
 Visual Studio CodeからUbuntu上で開発しJavaの入っているコンテナへ今後のトレーニングでリリースをするため、ホストOS上にもOpenJDKをインストールする。
 
 * 「Lanchpad」→「その他」→「ターミナルを選択し起動
+* Home brewがインストールされていない場合は下記にてHome brewをインストール（管理者パスワードが聞かれるため入力する。）
+※「bluestacks」がインストールされている場合アンインストールする
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
 * brewにてAdoptOpenJDK11をインストール
 ```
 brew tap AdoptOpenJDK/openjdk
@@ -81,6 +69,19 @@ gradle -v
 ```
 brew install graphviz
 ```
+
+### Dockerのインストール
+
+* Docker HubのサイトにてDocker Hubのユーザーを作成し、Docker for Macをダウンロード。何も設定を変更しないでインストール。※インストーラの起動に時間がかかるが待つこと。
+[Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
+* Docker for Macを起動。※通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。
+
+* dockerをインストール。※docker-composeも導入される。
+```
+brew install docker
+```
+
+* ターミナルを起動し`docker version`にてClientとServer両方が表示されることを確認。
 
 ### Dockerサービスのビルドと起動
 

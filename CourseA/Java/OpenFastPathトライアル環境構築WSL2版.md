@@ -1,0 +1,176 @@
+# OpenFastPathトライアル環境構築WSL2版
+ー　 version 2020.06.26　ー
+
+## 本手順の前提
+
+* 「OpenFastPath次世代開発オリエンテーション」に従い、ご利用のマシンが64bit BIOS仮想化可能でWindows Update 2004 May 以上が適用可能な場合、トライアル環境用としてWSL2(Windows Subsystem for Linux)上にUbuntuをセットアップする。
+
+## トレーニング環境の準備
+
+### 環境準備の流れと所要時間
+
+1. WSL2・UbuntuによるLinux環境の準備 ＜50分＞
+2. トライアル環境の自動構築＜20分＞
+	* Ubuntuパッケージリストの更新
+	* Ubuntuインストール済みパッケージのアップグレード
+	* Ubuntu日本語化
+	* JDK インストール
+	* Gradle インストール
+	* Graphviz インストール
+	* Docker インストール
+	* 表示設定の変更
+	* Ubuntu再起動
+	* Java バージョン確認
+	* Gradleバージョン確認
+	* Dockerサービス起動
+	* Dockerサーバ・クライアント稼働確認
+	* MySQLデータベースサーバコンテナ生成・起動
+3. Visual Studio Codeのインストールと設定＜10分＞
+
+## WSL2・UbuntuによるLinux環境の準備
+[想定所要時間 15分]
+
+Windowsをトレーニング環境とする場合はWindows上でLinuxを動かすことができるWindows Subsystem for Linux（WSL）を利用しLinuxの種類であるUbuntuを動作できるようにする。
+
+1. WSL2を前提としたWindowsバージョンの確認とWindows Update
+
+* Windowsボタン＋Rでファイル名を指定して実行を開き、`winver`コマンドを実行。Windowsのビルドバージョンがバージョン2004（19624）以上であることを確認する。
+* バージョンが2004未満の場合は[Windows 10 のダウンロード](https://www.microsoft.com/ja-jp/software-download/windows10)にて「今すぐアップデート」をクリックし最新に更新する。
+
+2. WSL2の有効化
+
+* 	「スタート」→「-設定」→「アプリ」を開き左メニューより「アプリと機能」をクリック。
+* 「関連設定」の「プログラムと機能」をクリック。
+* 左メニューにある「Windows機能の有効化または無効化」をクリック。
+* 「Linux用Windowsサブシステム」と「仮想マシンプラットフォーム」にチェックを入れてOKをクリックしインストールの上、システムを再起動。
+* 「スタート」ボタン横の検索ボックスに"power shell"と入力。Power shellを「管理者として実行」をクリックして起動する。
+* 日本語が文字化けする場合は画面左上のアイコンをクリックし「プロパティ」→「フォントタブ」でBIZ ゴシックなど日本語対応しているフォントを選択する。）
+* 今後インストールするLinuxはすべてWSL2で実行するように変更する。※ versionと2の間は半角スペース開ける。
+	`wsl --set-default-version 2` 
+	
+3. Ubuntuのインストール
+
+* 「スタート」ボタン横の検索ボックスに”store”と入力し、「Microsoft Store」を選び起動。
+* Microsoft Storeの検索のボックスで”Ubuntu”と入力し検索。
+* 「Ubntu20.04 LTS」 をインストールし再起動。
+* 「複数端末で利用するか」は「いいえ」を選択。
+	
+4. Ubuntuの起動
+
+* 「スタート」ボタン横の検索ボックスに”Ubuntu”と入力。
+* 「Ubntu20.04 LTS」を選び「管理者をして実行」をクリックし起動。※Ubuntuは以後必ず管理者権限で起動する。
+* 起動中にユーザIDとパスワードが要求されるためUbuntu用の管理ユーザーとパスワードをセットする。（ubadmin/ubadminpw）
+* Ubuntuターミナルの左上アイコンをクリックし「プロパティ」をクリック。プロパティで「Ctrl+Shift+C/Vをコピー/貼り付けとして使用する」をチェックする。（以後ターミナル上でコピーはCtrl＋Shift＋C、貼り付けはCtrl+Shift+Vを利用できる。）
+* * Power Shellのターミナルが終了している場合は、「スタート」ボタン横の検索ボックスに"power shell"と入力。「Power shell」を選び「管理者として実行」をクリックして起動。
+* UbuntuがWSL2でインストールされていることを確認する。”Ubntu-20.04” の”VERSION”が”2”と表示されていればよい。
+`wsl -l -v` 
+	
+### トライアル環境の自動構築
+
+1. rootパスワードの変更
+
+* 「スタート」ボタン横の検索ボックスに”Ubuntu”と入力。「Ubntu20.04 LTS」をクリックし起動。（以後ターミナルと表記する。）
+*  rootユーザのパスワード設定。※以後sudo実行時にパスワードが求められたらrootユーザに設定したパスワードを入力。
+```
+sudo passwd root
+(新しいUNIXパスワードを入力してください)ubadminpw
+(新しいUNIXパスワードを再入力してください)ubadminpw
+```
+
+2. トレーニングコンテンツのダウンロード
+
+* Open Fast PathのGitからトレーニングコンテンツをダウンロード
+```
+cd
+git clone https://github.com/Open-Fastpath/Trial.git
+```
+
+3. 環境の自動構築
+
+* Linux環境のセットアップを自動で実行する。起動時にsudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
+	* パッケージリストの更新
+	* インストール済みパッケージのアップグレード
+	* 日本語化
+	* JDK インストール
+	* Gradle インストール
+	* Graphviz インストール
+	* Docker インストール
+	* 表示設定の変更
+	* 再起動
+```
+cd ~/Trial/CourseA/Java/flowershop-trial-env
+bash autosetup.sh
+```
+
+4. 再起動後の確認とDockerサービスの生成と起動
+
+* 再起動後、ターミナルで接続
+* 再起動後のインストール確認とDockerサービスの自動構築を実行する。「Dockerサービス起動」時にsudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
+	* Java バージョン確認
+	* Gradleバージョン確認
+	* Dockerサービス起動
+	* Dockerサーバ・クライアント稼働確認
+	* MySQLデータベースサーバコンテナ生成・起動
+```
+cd ~/Trial/CourseA/Java/flowershop-trial-env
+bash autosetup_afterreboot.sh
+```
+
+### Visual Studio Codeのインストールと設定
+
+1. Visual Studio Codeのインストール
+
+* Visual Studio Code（以後VS Code）のダウンロードサイトから利用OSに合わせたインストーラをダウンロードし実行。
+[Download Visual Studio Code - Mac, Linux, Windows](https://code.visualstudio.com/download)
+* インストール完了画面でVisual Studio Codeを起動するを選択しVS Codeを起動。
+```
+ーVS Codeのクリーンインストールー
+VS Codeはアンインストールしただけでは拡張機能や設定のフォルダが削除されないため、下記のフォルダも削除する。
+C:¥Users¥<ユーザー名>¥AppData¥Local¥Programs¥VS Code
+C:¥Users¥<ユーザー名>¥AppData¥Roaming¥Code
+C:¥Users¥<ユーザー名>¥.vscode
+```
+
+2. 日本語パックのインストール
+
+* 「アクティブバー」（左側に縦に表示されているアイコンのメニュー）から「拡張機能」（アイコンの上にマウスをおくとExtentionと表示される）を選択し、検索窓に”japan”を入力。（「拡張機能」は`Shift＋Ctrl/Command＋x`で起動できる）
+* 検索結果よりJapanese Language Pack for VS Codeを選択しインストールし、VS Codeを再起動する。
+
+3. リモート接続環境のインストール
+
+* 「拡張機能」にて検索窓に”remote”を入力し、検索結果よりRemote Developmentを選択しインストール。
+* 「アクティブバー」から「リモートエクスプローラー」を選び、リモートエクスプローラの右横にあるコンボボックスにて`WSL Targets`を選択。「TARGETS(WSL)」の下にWSL2のUbuntuが表示される。右にあるフォルダボタン「Connect to Host in New Windows」をクリックし、新たに起動したVS Codeの画面のメニューから「表示」→「ターミナル」を選択。ターミナル右上の上矢印ボタンを押下して全画面表示にし操作する。
+
+4. Docker for VS Codeのインストールと設定
+
+* Ubuntuに接続しているVS Code環境で「拡張機能」の検索窓で「docker」を入力、「Docker for Visual Studio Code」をインストールする。
+* 「アクティブバー」から「Docker」を選択。CONTAINERSにDockerコンテナが表示され、コンテナごとの起動・停止が可能であること。（コンテナ名称横の再生・ストップそれぞれアイコンで可能）
+
+5. SQLToolsのインストールと設定
+
+* 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択。 	
+* 「拡張機能」の検索窓で”sqltool”と入力。	 検索結果からSQLToolsを選択しインストール。インストール後「再読み込みが必要です」をクリックしUbuntuに接続しているVS Codeを再起動。
+* 「アクティブバー」から「拡張機能」を選択し、検索窓に”sqltool”と入力し、「アクティブバー」から「SQLTools MySQL/Maria DB」を選択肢インストール。インストール後「再読み込みが必要です」をクリックしUbuntuに接続しているVS Codeを再起動。
+* 「アクティブバー」からSQLTool を選択。「CONNECTIONS」から「Add New Connection」のアイコンをクリックしMySQLを選択。（アクティブバーにSQLToolsが表示されない場合はコマンドパレット`Shift＋Ctrl/Command＋p`から「sql add」などと検索し「SQLTools Management : Add New Connection」を選択しても良い。）
+* データベースの選択でMySQLを選び下記項目を設定。
+	* Connection Name     vs_con_flower_db
+	* Server Address         localhost
+	* Port                            3306
+	* Database                    flower_db
+	* Username                   user
+	* Use password            Save password
+	* Password                    password
+* 「TEST CONNECTION」を実行して「SUCCESS…」と表示されたら「SAVE CONNECTION」をクリック。
+* 「CONNECTIONS」に追加された「vs_con_flower_db」をクリックし接続されることを確認。
+* 「コマンドパレット」を開き”sqltools co”と入力。”SQLTools Connection: Run Query”を実行し`show databases;`を実行。flower_dbが表示されることを確認。
+
+6. Java関連基本拡張機能のインストール
+
+* リモートエクスプローラー右横のコンボボックスから「SSH Targets」を選び、登録されたホスト名`ubuntu2004`の右にあるフォルダボタン「Connect to Host in New Windows」をクリックし、接続先OSタイプでLinuxを選択。Ubuntuに接続したVS Codeを新たに開く。
+* 「アクティブバー」より「リモートエクスプローラー」を選択。
+* 「拡張機能」を選択し 検索窓に下記インストール対象の名称の一部を入力。検索してインストール。指示に従い「再読み込み」を実施。
+	* Java Extension Pack
+	* Spring Boot Extension Pack
+	* Lombok Annotations Support for VS Code
+
+#OpenFastPath/CourseA/Java/Trial

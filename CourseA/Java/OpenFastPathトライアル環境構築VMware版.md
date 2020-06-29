@@ -3,7 +3,7 @@
 
 ## 本手順の前提
 
-* 「OpenFastPath次世代開発オリエンテーション」に従い、ご利用のマシンが64bit BIOS仮想化可能な場合、トライアル環境用としてVMware Workstation Player上にUbuntuをセットアップする。（トレーニング本番では一つずつ設定するが、トライアル環境では自動設定するためすぐにクリーンナップできるVMwareを利用する）
+* 「OpenFastPath次世代開発オリエンテーション」に従い、ご利用のマシンが64bit BIOS仮想化可能だがWSL2のインストール要件であるWindowsバージョンにWindows UpdateができないPCの場合、トライアル環境用としてVMware Workstation Player上にUbuntuをセットアップする。
 
 ## トレーニング環境の準備
 
@@ -76,13 +76,16 @@ Windows Homeをトレーニング環境とする場合はWindows上でLinuxを�
 * 「ubuntu login:」が表示されたら設定したユーザIDとパスワードでログイン
 * シャットダウンする。`shutdown now`
 	
-5. SSHによるアクセス
+5. 仮想ネットワークの設定
 
 * VMWareにSSHアクセスできるようにするため、VMware Workstation Playerを起動し、VMwareの仮想マシンのリストからインストールした「Ubuntu2004」を右クリックし「設定」を開く。
 * 「ネットワークアダプタ」を選択。「NAT」を選択。
 * 左下の「追加」をクリックし、「ハードウェア追加ウィザード」で一覧から「ネットワークアダプタ」を選択し「完了」をクリック。追加された「ネットワークアダプタ２」で「ホストオンリー」を選び「OK」をクリック。
 * VMwareのリストから、「Ubuntu2004」を選び、再生ボタンをクリック。
 * Ubuntuが起動したらユーザIDとパスワードを入力しログイン後、`ip addr`でUbuntuのIPアドレスを把握する。
+
+6. SSHクライアントの設定と鍵交換
+
 * スタート→「Power Shell」と入力しPower Shell のターミナル起動（Windows Terminalでもよい）
 * SSH接続をするクライアントのPCのターミナルで`ssh-keygen`を実行しSSHに必要な秘密鍵と公開鍵のペアを生成。保管ファイルとパスフレーズが問われるが変更せずにリターンキー押下。（Windowsは`C:¥Users¥ユーザ名¥.ssh`の配下に、Macは/Users/ユーザ名/.ssh配下に生成される）
 *  ターミナルでUbuntu のログインユーザとIPアドレスを指定してSSHでログインする。以後、sshで接続したターミナルで実行する。（下記コマンドの`192.168.X.X`はUbuntuのIPアドレスに変更する。）
@@ -127,7 +130,7 @@ git clone https://github.com/Open-Fastpath/Trial.git
 
 3. 環境の自動構築
 
-* 実際のトレーニングではLinux環境のセットアップも自ら実施するがトライアル環境では自動でセットアップする。途中sudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
+* Linux環境のセットアップを自動で実行する。起動時にsudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
 	* パッケージリストの更新
 	* インストール済みパッケージのアップグレード
 	* 日本語化
@@ -145,7 +148,7 @@ bash autosetup.sh
 4. 再起動後の確認とDockerサービスの生成と起動
 
 * 再起動後、Power Shellで再度ssh接続
-* 再起動後のインストール確認とDockerサービスの自動構築を実行する。途中sudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
+* 再起動後のインストール確認とDockerサービスの自動構築を実行する。「Dockerサービス起動」時にsudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
 	* Java バージョン確認
 	* Gradleバージョン確認
 	* Dockerサービス起動
@@ -221,4 +224,4 @@ Host 表示名として任意の名称（Ubuntu2004など）
 	* Spring Boot Extension Pack
 	* Lombok Annotations Support for VS Code
 
-#OpenFastPath/Environment/Trial
+#OpenFastPath/CourseA/Java/Trial
