@@ -8,7 +8,7 @@ echo "Gradle インストール確認"
 gradle -v
 
 echo "Docker サービス起動"
-sudo service docker stat
+sudo service docker start
 
 echo "Docker サービス状態確認"
 docker version
