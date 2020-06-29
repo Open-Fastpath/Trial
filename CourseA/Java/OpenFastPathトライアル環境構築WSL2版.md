@@ -19,13 +19,14 @@
 	* Graphviz インストール
 	* Docker インストール
 	* 表示設定の変更
-	* Ubuntu再起動
+	* 再起動
 	* Java バージョン確認
 	* Gradleバージョン確認
 	* Dockerサービス起動
 	* Dockerサーバ・クライアント稼働確認
 	* MySQLデータベースサーバコンテナ生成・起動
-3. Visual Studio Codeのインストールと設定＜10分＞
+3. Docker クライアントのインストール ＜5分＞
+4. Visual Studio Codeのインストールと設定＜10分＞
 
 ### WSL2・UbuntuによるLinux環境の準備
 
@@ -113,6 +114,19 @@ bash autosetup.sh
 ```
 cd ~/Trial/CourseA/Java/flowershop-trial-env
 bash autosetup_afterreboot.sh
+```
+
+### Docker クライアントのインストール
+
+* Docker HubのサイトにてDocker Hubのユーザーを作成し、Docker for Windowsをダウンロードし何も設定を変更しないでインストール。※インストーラの起動に時間がかかるが待つこと。
+[Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
+* インストール中に「Configration」の指定が求められるが「Enable WSL 2 Windows Features」にチェックがされている状態のまま「OK」ボタンをクリックすること。（この設定でWSL2上のコンテナにアクセスできる。）
+* インストールが完了するとWindowsからサインアウトされるので再度サインインする。
+* 	Docker for Winsowsを起動。※通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。
+```
+ー解説ー
+Docker for Windows はバージョン2.2.2.0以降WSL2 上のDockerを参照できるようになった。WSL2上のDocker EngineにWindowsからDocker Cientとしてアクセスできる。Visual Studio CodeはDocker Desktopのdocker Clientを通じてWSL2上のDockerコンテナにアクセスできる。
+５月時点のバージョンは2.3.0.2をインストールする。
 ```
 
 ### Visual Studio Codeのインストールと設定
