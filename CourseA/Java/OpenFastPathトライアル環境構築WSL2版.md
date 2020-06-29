@@ -57,11 +57,10 @@ Windowsをトレーニング環境とする場合はWindows上でLinuxを動か�
 	
 4. Ubuntuの起動
 
-* 「スタート」ボタン横の検索ボックスに”Ubuntu”と入力。
-* 「Ubntu20.04 LTS」を選び「管理者をして実行」をクリックし起動。※Ubuntuは以後必ず管理者権限で起動する。
+* 「スタート」→ 「Ubntu20.04 LTS」で右クリック→「その他」から「管理者をして実行」をクリックし起動。（セットアップ中、Ubuntuは以後必ず管理者権限で起動する。以後ターミナルと表記する。）
 * 起動中にユーザIDとパスワードが要求されるためUbuntu用の管理ユーザーとパスワードをセットする。（ubadmin/ubadminpw）
 * Ubuntuターミナルの左上アイコンをクリックし「プロパティ」をクリック。プロパティで「Ctrl+Shift+C/Vをコピー/貼り付けとして使用する」をチェックする。（以後ターミナル上でコピーはCtrl＋Shift＋C、貼り付けはCtrl+Shift+Vを利用できる。）
-* * Power Shellのターミナルが終了している場合は、「スタート」ボタン横の検索ボックスに"power shell"と入力。「Power shell」を選び「管理者として実行」をクリックして起動。
+* Power Shellのターミナルが終了している場合は、「スタート」ボタン横の検索ボックスに"power shell"と入力。「Power shell」を選び「管理者として実行」をクリックして起動。
 * UbuntuがWSL2でインストールされていることを確認する。”Ubntu-20.04” の”VERSION”が”2”と表示されていればよい。
 `wsl -l -v` 
 	
@@ -69,7 +68,7 @@ Windowsをトレーニング環境とする場合はWindows上でLinuxを動か�
 
 1. rootパスワードの変更
 
-* 「スタート」ボタン横の検索ボックスに”Ubuntu”と入力。「Ubntu20.04 LTS」をクリックし起動。（以後ターミナルと表記する。）
+* ターミナルを起動する。
 *  rootユーザのパスワード設定。※以後sudo実行時にパスワードが求められたらrootユーザに設定したパスワードを入力。
 ```
 sudo passwd root
@@ -96,13 +95,17 @@ git clone https://github.com/Open-Fastpath/Trial.git
 	* Graphviz インストール
 	* Docker インストール
 	* 表示設定の変更
-	* 再起動
+	* 再起動（WSL2ではシェル上のshutdownができないため次の手動手順実行）
 ```
 cd ~/Trial/CourseA/Java/flowershop-trial-env
 bash autosetup.sh
 ```
 
-4. 再起動後の確認とDockerサービスの生成と起動
+4. WSL2サービスの再起動
+
+* WSL2の場合、shutdown / rebootは利用できないため、PowerShellを起動し、`wsl -l`で`Ubuntu-20.04`などのディストリビューション名を取得し `wsl -t  Ubuntu-20.04`でWSL2のサービスを再起動する。
+
+5. 再起動後の確認とDockerサービスの生成と起動
 
 * 再起動後、ターミナルで接続
 * 再起動後のインストール確認とDockerサービスの自動構築を実行する。「Dockerサービス起動」時にsudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
