@@ -27,8 +27,7 @@
 	* MySQLデータベースサーバコンテナ生成・起動
 3. Visual Studio Codeのインストールと設定＜10分＞
 
-## WSL2・UbuntuによるLinux環境の準備
-[想定所要時間 15分]
+### WSL2・UbuntuによるLinux環境の準備
 
 Windowsをトレーニング環境とする場合はWindows上でLinuxを動かすことができるWindows Subsystem for Linux（WSL）を利用しLinuxの種類であるUbuntuを動作できるようにする。
 
