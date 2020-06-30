@@ -124,12 +124,11 @@ bash autosetup_afterreboot.sh
 * Docker HubのサイトにてDocker Hubのユーザーを作成し、Docker for Windowsをダウンロードし何も設定を変更しないでインストール。※インストーラの起動に時間がかかるが待つこと。
 [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
 * インストール中に「Configration」の指定が求められるが「Enable WSL 2 Windows Features」にチェックがされている状態のまま「OK」ボタンをクリックすること。（この設定でWSL2上のコンテナにアクセスできる。）
-* インストールが完了するとWindowsからサインアウトされるので再度サインインする。
-* 	Docker for Winsowsを起動。※通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。
+* インストールが完了するとWindowsからサインアウトするか確認されるが、Windows自体を再起動する。
+* 	Docker for Winsowsを起動。通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。
 ```
 ー解説ー
-Docker for Windows はバージョン2.2.2.0以降WSL2 上のDockerを参照できるようになった。WSL2上のDocker EngineにWindowsからDocker Cientとしてアクセスできる。Visual Studio CodeはDocker Desktopのdocker Clientを通じてWSL2上のDockerコンテナにアクセスできる。
-５月時点のバージョンは2.3.0.2をインストールする。
+WSL2上のDocker EngineにWindowsからDocker Cientとしてアクセスする。Visual Studio CodeはDocker Desktopのdocker Clientを通じてWSL2上のDockerコンテナにアクセス可能となる。
 ```
 
 ### Visual Studio Codeのインストールと設定
