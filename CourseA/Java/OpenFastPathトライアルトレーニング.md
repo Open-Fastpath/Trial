@@ -361,4 +361,4 @@ bash startup.sh
 シーケンスはSpring Bootで自動化されている箇所まで汎用的に記載している
 [デモアプリケーション・シーケンス図](https://github.com/ofp-training-admin/oldshop-demo/blob/master/SEQUENCE.png)
 
-#OpenFastPath/Training/Trial
+#OpenFastPath/CourseA/Java/Trial

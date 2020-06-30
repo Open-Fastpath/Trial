@@ -125,10 +125,29 @@ bash autosetup_afterreboot.sh
 [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
 * インストール中に「Configration」の指定が求められるが「Enable WSL 2 Windows Features」にチェックがされている状態のまま「OK」ボタンをクリックすること。（この設定でWSL2上のコンテナにアクセスできる。）
 * インストールが完了するとWindowsからサインアウトするか確認されるが、Windows自体を再起動する。
-* 	Docker for Winsowsを起動。通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。
+* 再起動後、ターミナルを起動しUbuntuのDockerサービスを起動しDockerのサーバとクライアントが両方起動することを確認。（トライアル環境ではDocker,をデーモンで起動していないためWindowsやWSLの再起動時にはサービスの起動が必要。）
+```
+sudo service docker start
+docker version
+```
+* 	Docker for Winsowsを起動。通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。(WSL2の起動とDocker Serverの起動が遅い場合にClientからの実行エラーとなることがあるがその場合は右下の通知領域にDockerのアイコンを右クリックしRestartをする。)
 ```
 ー解説ー
 WSL2上のDocker EngineにWindowsからDocker Cientとしてアクセスする。Visual Studio CodeはDocker Desktopのdocker Clientを通じてWSL2上のDockerコンテナにアクセス可能となる。
+```
+
+
+```
+ー　Tips cgroupがマウントできないエラーが発生したらー
+”cgroups: cannot find cgroup mount destination”と出ている場合には
+cgroupsのマウント先がない可能性がある
+sudo ls -ltr /sys/fs/cgroup/systemd
+を実行しフォルダが存在する場合、Windowsを再起動してもう一度試す。
+
+存在しない場合はフォルダを作成しマウントする。
+sudo mkdir /sys/fs/cgroup/systemd
+sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd 
+対応ぼUbuntuを終了しの後Windowsを再起動する。
 ```
 
 ### Visual Studio Codeのインストールと設定
@@ -158,19 +177,19 @@ C:¥Users¥<ユーザー名>¥.vscode
 
 4. Docker for VS Codeのインストールと設定
 
-* Ubuntuに接続しているVS Code環境で「拡張機能」の検索窓で「docker」を入力、「Docker for Visual Studio Code」をインストールする。
+* （Ubuntuへのリモート接続で起動したVS CodeではなくWindows上で動作しているVS Codeにて）「拡張機能」の検索窓で「docker」を入力、「Docker for Visual Studio Code」をインストールする。
 * 「アクティブバー」から「Docker」を選択。CONTAINERSにDockerコンテナが表示され、コンテナごとの起動・停止が可能であること。（コンテナ名称横の再生・ストップそれぞれアイコンで可能）
 
 5. SQLToolsのインストールと設定
 
-* 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択。 	
-* 「拡張機能」の検索窓で”sqltool”と入力。	 検索結果からSQLToolsを選択しインストール。インストール後「再読み込みが必要です」をクリックしUbuntuに接続しているVS Codeを再起動。
-* 「アクティブバー」から「拡張機能」を選択し、検索窓に”sqltool”と入力し、「アクティブバー」から「SQLTools MySQL/Maria DB」を選択肢インストール。インストール後「再読み込みが必要です」をクリックしUbuntuに接続しているVS Codeを再起動。
+*（Ubuntuへのリモート接続で起動したVS CodeではなくWindows上で動作しているVS Codeにて） 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択。 	
+* 「拡張機能」の検索窓で”sqltool”と入力。	 検索結果からSQLToolsを選択しインストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
+* 「アクティブバー」から「拡張機能」を選択し、検索窓に”sqltool”と入力し、「アクティブバー」から「SQLTools MySQL/Maria DB」を選択肢インストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
 * 「アクティブバー」からSQLTool を選択。「CONNECTIONS」から「Add New Connection」のアイコンをクリックしMySQLを選択。（アクティブバーにSQLToolsが表示されない場合はコマンドパレット`Shift＋Ctrl/Command＋p`から「sql add」などと検索し「SQLTools Management : Add New Connection」を選択しても良い。）
 * データベースの選択でMySQLを選び下記項目を設定。
 	* Connection Name     vs_con_flower_db
 	* Server Address         localhost
-	* Port                            3306
+	* Port                            59306
 	* Database                    flower_db
 	* Username                   user
 	* Use password            Save password
@@ -178,11 +197,11 @@ C:¥Users¥<ユーザー名>¥.vscode
 * 「TEST CONNECTION」を実行して「SUCCESS…」と表示されたら「SAVE CONNECTION」をクリック。
 * 「CONNECTIONS」に追加された「vs_con_flower_db」をクリックし接続されることを確認。
 * 「コマンドパレット」を開き”sqltools co”と入力。”SQLTools Connection: Run Query”を実行し`show databases;`を実行。flower_dbが表示されることを確認。
+* 右下の「管理」→「設定」を選択し、検索窓に「sqltool」を入力。「SQLTools Setting…」を選び、「Sqltools: Auto Open Session Files」のチェックを外す。（これにより不要なデータベース接続された新規ファイルが作成されなくなる。）
 
 6. Java関連基本拡張機能のインストール
 
-* リモートエクスプローラー右横のコンボボックスから「SSH Targets」を選び、登録されたホスト名`ubuntu2004`の右にあるフォルダボタン「Connect to Host in New Windows」をクリックし、接続先OSタイプでLinuxを選択。Ubuntuに接続したVS Codeを新たに開く。
-* 「アクティブバー」より「リモートエクスプローラー」を選択。
+* 「アクティブバー」から「リモートエクスプローラー」を選び、リモートエクスプローラの右横にあるコンボボックスにて`WSL Targets`を選択。「TARGETS(WSL)」の下にWSL2のUbuntuが表示される。右にあるフォルダボタン「Connect to Host in New Windows」をクリックし、新たに起動したVS Codeの画面のメニューから「表示」→「ターミナル」を選択。ターミナル右上の上矢印ボタンを押下して全画面表示にし操作する。
 * 「拡張機能」を選択し 検索窓に下記インストール対象の名称の一部を入力。検索してインストール。指示に従い「再読み込み」を実施。
 	* Java Extension Pack
 	* Spring Boot Extension Pack

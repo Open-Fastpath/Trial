@@ -214,6 +214,7 @@ Host 表示名として任意の名称（Ubuntu2004など）
 * 「TEST CONNECTION」を実行して「SUCCESS…」と表示されたら「SAVE CONNECTION」をクリック。
 * 「CONNECTIONS」に追加された「vs_con_flower_db」をクリックし接続されることを確認。
 * 「コマンドパレット」を開き”sqltools co”と入力。”SQLTools Connection: Run Query”を実行し`show databases;`を実行。flower_dbが表示されることを確認。
+* * 右下の「管理」→「設定」を選択し、検索窓に「sqltool」を入力。「SQLTools Setting…」を選び、「Sqltools: Auto Open Session Files」のチェックを外す。（これにより不要なデータベース接続された新規ファイルが作成されなくなる。）
 
 6. Java関連基本拡張機能のインストール
 

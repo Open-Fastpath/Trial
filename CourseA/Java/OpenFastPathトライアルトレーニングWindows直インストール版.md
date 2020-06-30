@@ -370,4 +370,4 @@ cd C:\workspace\tomcat\bin\
 * 任意の場所（例えばjp.core.ui.MainServer#serviceメソッドはHTTPリクエストを最初に受ける）にブレイクポイントを置く。
 * ブラウザにて`http://localhost:8080/oldshop/`にアクセスしログイン画面表示以降ブレイクダウンで停止しデバッグできることを確認。
 	
-#OpenFastPath/Training/Trial
+#OpenFastPath/CourseA/Java/Trial
