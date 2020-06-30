@@ -1,9 +1,10 @@
-#Open FastPath トライアルコンテンツ
+# Open FastPathトライアルコンテンツ
 
 本リポジトリには、トライアルコンテンツが格納されています。
 
-1.[次世代アプリケーション](CourseA/Java/OpenFastPath次世代開発トライアルオリエンテーション.md)
-2.[データサイエンティスト](CourseB/README.md)
+1. [次世代アプリケーション](CourseA/Java/OpenFastPath次世代開発トライアルオリエンテーション.md)
+
+2. [データサイエンティスト](CourseB/README.md)
 
 の2つのコースのトライアルがはいってます。
 
