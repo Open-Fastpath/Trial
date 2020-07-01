@@ -15,7 +15,8 @@ services:
         volumes:
             - ~/workspace/flowershop/docker/devenv/mysql/initdb.d:/docker-entrypoint-initdb.d
             - ~/workspace/flowershop/docker/devenv/mysql/conf.d:/etc/mysql/conf.d
-            - ~/workspace/flowershop/log/mysql:/var/log/mysql
+            - db_log:/var/log/mysql
+            - db_data:/var/lib/mysql
         networks:
             flower_web_segment:
                 ipv4_address: 172.20.0.20
@@ -33,3 +34,11 @@ networks:
         config:
             -
               subnet: 172.20.0.0/24
+
+# データベース永続化
+# ※クリアする場合はdocker volume rm db_data or db_logで削除
+volumes:
+  db_data:
+    driver: 'local'
+  db_log:
+    driver: 'local'
