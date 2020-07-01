@@ -37,9 +37,26 @@ Windowsをトレーニング環境とする場合はWindows上でLinuxを動か�
 * Windowsボタン＋Rでファイル名を指定して実行を開き、`winver`コマンドを実行。Windowsのビルドバージョンがバージョン2004（19624）以上であることを確認する。
 * バージョンが2004未満の場合は[Windows 10 のダウンロード](https://www.microsoft.com/ja-jp/software-download/windows10)にて「今すぐアップデート」をクリックし最新に更新する。
 
+```
+-- Tips Windows Terminalの利用 --
+
+Power Shellの色などのカスタマイズが難しい場合、最近正式リリースされたWindows Terminalをインストールすると、可読性や効率が上がる可能性があり試していただきたい。Power Shell、WSL、コマンドプロンプト、Azureの切り替えができ、タブで複数起動も可能になっている。利用する場合、後続のPowerShellあるいはUbuntuのターミナルという記載はWindows Terminalと置き換えていただいて問題ない。
+（導入手順）
+* スタート」ボタン横の検索ボックスに”store”と入力し、「Microsoft Store」を選び起動。
+* Microsoft Storeの検索のボックスで”Terminal”と入力し検索。 「Windows Terminal」 をインストールする。インストール後「起動」ボタンを押下し、タスクバーでアイコンを右クリック「タスクバーにピン留めする」
+* 以後、本文で「ターミナル」と記載しているものは「Windows Terminal」を利用する。
+```
+
 2. WSL2の有効化
 
-* 	「スタート」→「-設定」→「アプリ」を開き左メニューより「アプリと機能」をクリック。
+* * WSL2のメモリ使用量を制限するためWindowsの`C:¥Users¥ユーザ名¥.wslconfig`をなければ作成し下記を記載して保存。（メモ帳などで編集し保存する。）
+```
+[wsl2]
+memory=1GB
+swap=0
+```
+	
+* 「スタート」→「-設定」→「アプリ」を開き左メニューより「アプリと機能」をクリック。
 * 「関連設定」の「プログラムと機能」をクリック。
 * 左メニューにある「Windows機能の有効化または無効化」をクリック。
 * 「Linux用Windowsサブシステム」と「仮想マシンプラットフォーム」にチェックを入れてOKをクリックしインストールの上、システムを再起動。
@@ -59,10 +76,18 @@ Windowsをトレーニング環境とする場合はWindows上でLinuxを動か�
 
 * 「スタート」→ 「Ubntu20.04 LTS」で右クリック→「その他」から「管理者をして実行」をクリックし起動。（セットアップ中、Ubuntuは以後必ず管理者権限で起動する。以後ターミナルと表記する。）
 * 起動中にユーザIDとパスワードが要求されるためUbuntu用の管理ユーザーとパスワードをセットする。（ubadmin/ubadminpw）
-* Ubuntuターミナルの左上アイコンをクリックし「プロパティ」をクリック。プロパティで「Ctrl+Shift+C/Vをコピー/貼り付けとして使用する」をチェックする。（以後ターミナル上でコピーはCtrl＋Shift＋C、貼り付けはCtrl+Shift+Vを利用できる。）
+* Ubuntuターミナルの左上アイコンをクリックし「プロパティ」をクリック。プロパティで「Ctrl+Shift+C/Vをコピー/貼り付けとして使用する」をチェックする。（以後ターミナル上でコピーはCtrl＋Shift＋C、貼り付けはCtrl+Shift+Vを利用できる。）フォントタブで「BIZ UD ゴシック」を選択し「OK」をクリック。
 * Power Shellのターミナルが終了している場合は、「スタート」ボタン横の検索ボックスに"power shell"と入力。「Power shell」を選び「管理者として実行」をクリックして起動。
 * UbuntuがWSL2でインストールされていることを確認する。”Ubntu-20.04” の”VERSION”が”2”と表示されていればよい。
 `wsl -l -v` 
+
+```
+-- Tips WSL2 Ubuntuの初期化方法 --
+Power Shellなどで下記のコマンドを実行すると初期化できる。
+または「アプリと機能」で「Ubuntu 20.04 LTS」をクリックし「詳細オプション」をクリックし「リセット」ボタンを押すことで設定を削除する。
+
+wsl --unregister Ubuntu-20.04
+```
 	
 ### トライアル環境の自動構築
 
@@ -103,7 +128,7 @@ bash autosetup.sh
 
 4. WSL2サービスの再起動
 
-* WSL2の場合、shutdown / rebootは利用できないため、PowerShellを起動し、`wsl -l`で`Ubuntu-20.04`などのディストリビューション名を取得し `wsl -t  Ubuntu-20.04`でWSL2のサービスを再起動する。
+* WSL2の場合、shutdown / rebootは利用できないため、PowerShellを起動し、`wsl -l`で`Ubuntu-20.04`などのディストリビューション名を取得し `wsl -t  Ubuntu-20.04`でWSL2のサービスを再起動する。（または、Windowsを再起動しても良い。）
 
 5. 再起動後の確認とDockerサービスの生成と起動
 
@@ -182,7 +207,7 @@ C:¥Users¥<ユーザー名>¥.vscode
 
 5. SQLToolsのインストールと設定
 
-*（Ubuntuへのリモート接続で起動したVS CodeではなくWindows上で動作しているVS Codeにて） 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択。 	
+* （Ubuntuへのリモート接続で起動したVS CodeではなくWindows上で動作しているVS Codeにて） 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択。 	
 * 「拡張機能」の検索窓で”sqltool”と入力。	 検索結果からSQLToolsを選択しインストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
 * 「アクティブバー」から「拡張機能」を選択し、検索窓に”sqltool”と入力し、「アクティブバー」から「SQLTools MySQL/Maria DB」を選択肢インストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
 * 「アクティブバー」からSQLTool を選択。「CONNECTIONS」から「Add New Connection」のアイコンをクリックしMySQLを選択。（アクティブバーにSQLToolsが表示されない場合はコマンドパレット`Shift＋Ctrl/Command＋p`から「sql add」などと検索し「SQLTools Management : Add New Connection」を選択しても良い。）

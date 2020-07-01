@@ -70,25 +70,13 @@ cd ~/workspace
 cp -rp ~/Trial/CourseA/Java/flowershop-trial .
 ```
 
-### MySQLにデータベーステーブル設定
+### データベースのデータ登録状況確認
 
-1. MySQLのデータベースコンテナが起動されていることを確認
-
+* トライアル環境では、環境構築にて、MySQLのデータベースサーバDockerコンテナを生成する際に、今回利用するデータベース、テーブル、テストデータを自動でセットしている。本トレーニングではテーブルやデータの登録も学ぶが、トライアルではデータベースの利用方法を理解いただく。
 * 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択し、再生ボタンとなり稼働したことを確認。 	
-
-2. データベーススクリプトのフォルダに移動しVS Code起動
-
-* 「アクティブバー」から「エクスプローラ」を選択し、「フォルダを開く」で`~/workspace/flowershop-trial/code/javaapps/flowershop/repository/mysql/ddl`を選択。
-	
-3. 販売管理テーブルの生成
-
-* 「エクスプローラ」にて`create_tables.sql`を選択。`SHIFT+CTRL+P`で「コマンドパレット」を開き、「SQLTools:Connection Run This File」を選び、接続先DBに`vs_con_flower_db `を選択して実行。
-* エラーが表示される、もしくは待ち時間が長い場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」を開き`sales`と`sales_detail`の２つのテーブルが作成されていることを確認。
-	
-5. 販売管理テーブルにテストデータを登録
-	
-* 同様の手順で、ファイルより`insert_sales.sql`を選択しSQLを実行。ファイルを開いた上段に「Run on active connection」と出ていれば左の実行ボタンをクリックして実行しても良い。
-* エラーが表示される、あるいは待ち時間が長い場合でも処理が完了しているケースがあるため、「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」→「sales」「sales_detail」と開き、「sales」「sales_detail」それぞれの右側にある「Show Table Records」をクリック。レコードが登録されていることを確認する。
+* 「アクティブバー」から「SQL Tools」を選択し、「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」を開き`sales`と`sales_detail`の２つのテーブルが作成されていることを確認。
+*「CONNECTIONS」→「vs_con_flower_db」→「flower_db」→「Tables」を開き`sales`と`sales_detail`の２つのテーブルが存在することを確認。
+* `sales` `sales_detail`それぞれの右側にある「Show Table Records」をクリック。レコードが登録されていることを確認する。
 
 ### 実装・ビルド・稼働確認
 
