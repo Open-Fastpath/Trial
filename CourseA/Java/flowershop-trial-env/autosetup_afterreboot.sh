@@ -15,6 +15,7 @@ docker version
 
 echo "MySQLコンテナ生成・起動"
 cd 
+mkdir -p workspace/flowershop
 cp -rp  ~/Trial/CourseA/Java/flowershop-trial-env/docker workspace/flowershop/.
 cd workspace/flowershop/docker/util
 bash c1-build_and_start_compose.sh
