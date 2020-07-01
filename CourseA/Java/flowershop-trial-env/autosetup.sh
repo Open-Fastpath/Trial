@@ -28,6 +28,7 @@ sudo apt -y install graphviz
 cd ~/Trial/CourseA/Java/flowershop-trial-env
 bash linux-settings/docker-setup/set-docker-env.sh
 sudo apt install docker-ce docker-ce-cli containerd.io docker-compose -y
+sudo cgroupfs-mount
 sudo usermod -aG docker $USER
 sudo gpasswd -a $USER docker
 # 表示設定更新
