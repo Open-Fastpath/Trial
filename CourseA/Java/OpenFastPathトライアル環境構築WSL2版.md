@@ -49,10 +49,10 @@ Power Shellの色などのカスタマイズが難しい場合、最近正式リ
 
 2. WSL2の有効化
 
-* * WSL2のメモリ使用量を制限するためWindowsの`C:¥Users¥ユーザ名¥.wslconfig`をなければ作成し下記を記載して保存。（メモ帳などで編集し保存する。）
+* * WSL2のメモリ使用量を制限するためWindowsの`C:¥Users¥ユーザ名¥.wslconfig`をなければ作成し下記を記載して保存。（メモ帳などで編集し保存する。WSLは初期設定ではPCのメモリの80%までファイルのキャッシュのために利用してしまうため制限する。下記は4GBの最低割り当てのケースであり、PCのメモリが多い場合は50%くらいまで確保しても良い。WSL上でメモリ使用状況を確認するのは`free -h`などで確認できる。）
 ```
 [wsl2]
-memory=1GB
+memory=2GB
 swap=0
 ```
 	
@@ -133,6 +133,14 @@ bash autosetup.sh
 5. 再起動後の確認とDockerサービスの生成と起動
 
 * 再起動後、ターミナルで接続
+* Ubuntuの再起動によりcgroupがマウントできていない場合はマウントする。
+```
+sudo ls -ltr /sys/fs/cgroup/systemd
+（存在しない場合のみ下記実施）
+sudo mkdir /sys/fs/cgroup/systemd
+sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd 
+```
+
 * 再起動後のインストール確認とDockerサービスの自動構築を実行する。「Dockerサービス起動」時にsudoのパスワードが求められたら設定したsudoのパスワードを入力し続行する。
 	* Java バージョン確認
 	* Gradleバージョン確認
@@ -150,11 +158,22 @@ bash autosetup_afterreboot.sh
 [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
 * インストール中に「Configration」の指定が求められるが「Enable WSL 2 Windows Features」にチェックがされている状態のまま「OK」ボタンをクリックすること。（この設定でWSL2上のコンテナにアクセスできる。）
 * インストールが完了するとWindowsからサインアウトするか確認されるが、Windows自体を再起動する。
-* 再起動後、ターミナルを起動しUbuntuのDockerサービスを起動しDockerのサーバとクライアントが両方起動することを確認。（トライアル環境ではDocker,をデーモンで起動していないためWindowsやWSLの再起動時にはサービスの起動が必要。）
+* 再起動後、ターミナルを起動し、 Ubuntuの再起動によりcgroupがマウントできていない場合はマウントする。
+```
+sudo ls -ltr /sys/fs/cgroup/systemd
+（存在しない場合のみ下記実施）
+sudo mkdir /sys/fs/cgroup/systemd
+sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd 
+```
+
+* UbuntuのDockerサービスを起動しDockerのサーバとクライアントが両方起動することを確認。（トライアル環境ではDocker,をデーモンで起動していないためWindowsやWSLの再起動時にはサービスの起動が必要。）
 ```
 sudo service docker start
 docker version
+cd ~/workspace/flowershop/docker/util
+ bash c6-start_container.sh
 ```
+
 * 	Docker for Winsowsを起動。通知領域にDockerのアイコンが表示されるまで時間がかかるが待つこと。(WSL2の起動とDocker Serverの起動が遅い場合にClientからの実行エラーとなることがあるがその場合は右下の通知領域にDockerのアイコンを右クリックしRestartをする。)
 ```
 ー解説ー
@@ -164,6 +183,7 @@ WSL2上のDocker EngineにWindowsからDocker Cientとしてアクセスする�
 
 ```
 ー　Tips cgroupがマウントできないエラーが発生したらー
+WindowsやWSLを再起動した際にマウントが失敗することがある。
 ”cgroups: cannot find cgroup mount destination”と出ている場合には
 cgroupsのマウント先がない可能性がある
 sudo ls -ltr /sys/fs/cgroup/systemd
@@ -208,7 +228,7 @@ C:¥Users¥<ユーザー名>¥.vscode
 5. SQLToolsのインストールと設定
 
 * （Ubuntuへのリモート接続で起動したVS CodeではなくWindows上で動作しているVS Codeにて） 「アクティブバー」から「Docker」を選択し、「flower_db」のコンテナが緑再生ボタンの稼働中になっているか確認。稼働中でない場合は右クリックしてStartを選択。 	
-* 「拡張機能」の検索窓で”sqltool”と入力。	 検索結果からSQLToolsを選択しインストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
+* （Ubuntuへのリモート接続で起動したVS Codeにて）「拡張機能」の検索窓で”sqltool”と入力。	 検索結果からSQLToolsを選択しインストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
 * 「アクティブバー」から「拡張機能」を選択し、検索窓に”sqltool”と入力し、「アクティブバー」から「SQLTools MySQL/Maria DB」を選択肢インストール。インストール後「再読み込みが必要です」をクリックしVS Codeを再起動。
 * 「アクティブバー」からSQLTool を選択。「CONNECTIONS」から「Add New Connection」のアイコンをクリックしMySQLを選択。（アクティブバーにSQLToolsが表示されない場合はコマンドパレット`Shift＋Ctrl/Command＋p`から「sql add」などと検索し「SQLTools Management : Add New Connection」を選択しても良い。）
 * データベースの選択でMySQLを選び下記項目を設定。
@@ -221,6 +241,22 @@ C:¥Users¥<ユーザー名>¥.vscode
 	* Password                    password
 * 「TEST CONNECTION」を実行して「SUCCESS…」と表示されたら「SAVE CONNECTION」をクリック。
 * 「CONNECTIONS」に追加された「vs_con_flower_db」をクリックし接続されることを確認。
+* 「Add New Connection」が実行できない場合は、「アクティブバー」より左下の「管理」→「設定」を選択し、検索窓に「sqltool connection」と入力。「SQLTools Setting」をクリックし、「Sqltools: Connections」にて「settings.jsonで編集」をクリック。エディタで下記となるように記載し保存。
+```
+{
+    "sqltools.connections": [
+    {
+        "database": "flower_db",
+        "driver": "MySQL",
+        "name": "connection_flower_db",
+        "password": "password",
+        "port": 59306,
+        "server": "localhost",
+        "username": "user"
+    }
+    ],   
+}
+```
 * 「コマンドパレット」を開き”sqltools co”と入力。”SQLTools Connection: Run Query”を実行し`show databases;`を実行。flower_dbが表示されることを確認。
 * 右下の「管理」→「設定」を選択し、検索窓に「sqltool」を入力。「SQLTools Setting…」を選び、「Sqltools: Auto Open Session Files」のチェックを外す。（これにより不要なデータベース接続された新規ファイルが作成されなくなる。）
 
